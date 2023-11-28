@@ -38,7 +38,7 @@ def lin_func(list,key):
     count = n = 0
     for i in range(len(list)):
         n += 1
-        if list[i] == key: # ну, по алгоритму попаем и брейкаем
+        if list[i] == key:
             count += 1
             list.pop(i)
             break
@@ -264,7 +264,7 @@ def answer(func,Bibi,arg):
     tab.field_names = ['Номер в списке','Найденное слово','Частота появления в тексте','Количество сравнений','Время работы']
     t = 1
     CarCarich = DigitalWorld(Bibi)
-    st = time.time() # будем считать время отсюда, так как выше по факту просто задаем значения
+    st = time.time() 
     for i in set(PinCode):
         Copatich = list(CarCarich)
         value = int(theonlyway(i))
