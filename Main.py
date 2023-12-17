@@ -1,3 +1,5 @@
+# мои скучные поиски в основном файле, хотя бинарный очень эффективен конкретно для данной задачи
+
 import random, time, string, re
 import pandas as pd # для другой машинки нужно еще py -m pip install xlsxwriter, xlwt
 
