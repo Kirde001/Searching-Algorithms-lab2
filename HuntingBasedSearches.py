@@ -1,8 +1,8 @@
 # just code for Hunting searches
-def hunting_search_Kirde(list,key):
-    high = max = len(list)-1
+def hunting_search_Kirde(list,key): # Father of all hunter based searches or the first one that i made
+    high = len(list)-1
     low = 0
-    count = n = 0
+    count = 0
     flag = True
     while flag == True:
         try:
@@ -10,7 +10,6 @@ def hunting_search_Kirde(list,key):
                 if list[high] == key:
                     count +=1
                     list.pop(high)
-                    low = 0
                     high = len(list)-1
                     break
                 i =0
@@ -22,14 +21,12 @@ def hunting_search_Kirde(list,key):
                     if list[high] == key:
                         count +=1
                         list.pop(high)
-                        low = 0
                         high = len(list)-1
                 else:
                     low = list.index(list[high])+1
                 if list[low] == key:
                     count +=1
                     list.pop(low)
-                    low = 0
                     high = len(list)-1
                 i = 0
                 while key > list[low]:
@@ -40,7 +37,6 @@ def hunting_search_Kirde(list,key):
                     if key == list[low]:
                         count +=1
                         list.pop(low)
-                        low = 0
                         high = len(list)-1
                         break
                 else:
@@ -52,19 +48,20 @@ def hunting_search_Kirde(list,key):
     return count
 #######################################################################
 // a better version of that one higher, actually I've just removed unnecessary things and etc
-def hunting_search_Kirde_mod(list,key):
-    high = max = len(list)-1 
-    low = n = i = 0
+
+def hunting_search_mod(list,key): # Simb
+    high = len(list)-1 
+    low = i = 0
     count = 0 
     flag = True 
     while high > low:
         try:
-            n +=1  # придется пихать в места внутренних вайлов и в ветвление
             i = 0
             if list[high] == key:
                 count +=1 
                 list.pop(high) 
                 high = len(list)-1 # какая граница работает, такая и перезадается
+                continue
             while key < list[high]: 
                 high -= 2**i 
                 i += 1 
@@ -85,15 +82,98 @@ def hunting_search_Kirde_mod(list,key):
                 if key == list[low]:
                     count +=1
                     list.pop(low)
-                    low = 0
+                    high -= 1
             else:
                 high = list.index(list[low])
         except IndexError:
             flag = False
-    return count,n 
-######################################################################
-// several variations
-def girl_hunter_V1(list,key): # есть еще две версии (вторая тупенькая, а третья слишком заумная по моим идеям), ну а вообще сначала это писалось Данияру, но он отказался сам (потом был разворот на 180)
+    return count
+
+def hunting_binary_search(list,key): # Galya?
+    high = len(list)-1
+    low = count = 0
+    flag = True
+    while flag == True:
+        try:
+            if list[high] == key:
+                count +=1
+                list.pop(high)
+                high = len(list)-1
+            i =0
+            b = 0
+            while key < list[high]:
+                high -= 2**i
+                b = i
+                i += 1
+                if high-2**i <= low:
+                    i = 0
+                if list[high] == key:
+                    count +=1
+                    list.pop(high)
+                    high = len(list)-1
+            else:
+                low = high 
+                high += 2**b 
+            while low <= high: 
+                mid = (low + high)// 2 
+                if list[mid] == key:
+                    count += 1
+                    list.pop(mid)
+                    high = len(list)-1
+                elif list[mid] < key:
+                    low = mid + 1
+                else:
+                    high = mid - 1
+            else:
+                flag = False
+        except IndexError:
+            flag = False
+    return count
+
+def hunting_interpolation_search(list, key):
+    high = len(list)-1
+    low = count = 0
+    flag = True
+    while flag == True:
+        try:
+            if list[high] == key:
+                count +=1
+                list.pop(high)
+                high = len(list)-1
+                continue
+            i =0
+            b = 0
+            while key < list[high]:
+                high -= 2**i
+                b = i
+                i += 1
+                if high-2**i <= low:
+                    i = 0
+                if list[high] == key:
+                    count +=1
+                    list.pop(high)
+                    high = len(list)-1
+            else:
+                low = high 
+                high += 2**b
+            while low <= high and key >= list[low] and key <= list[high]:
+                index = low + int(((high - low) * (key - list[low])) / (list[high] - list[low]))
+                if list[index] == key:
+                    count += 1   
+                    list.pop(index)  
+                    high = len(list) - 1
+                elif list[index] < key:
+                    low = index + 1
+                else:
+                    high = index - 1
+            else:
+                flag = False
+        except IndexError:
+            flag = False
+    return count
+
+def girl_hunter_V1(list,key): # Mary
+    # есть еще две версии (вторая тупенькая, а третья слишком заумная по моим идеям), ну а вообще сначала это писалось Данияру, но он отказался сам (потом был разворот на 180)
     high = len(list)-1 
     low = i = count = temp = 0 
     flag = True  ############## РАБОТАЕТ ПРОФЕССИОНАЛ !!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -101,7 +181,6 @@ def girl_hunter_V1(list,key): # есть еще две версии (втора�
         if list[high] == key:
             count +=1 
             list.pop(high) 
-            low = n = 0
             high = len(list)-1 # границы переопределяем те, с которыми работаем
             continue
         while key < list[high] and low != high: # у меня как всегда был долгий процесс дебага и условие с and добавилось, а там еще ниже есть if high == low, я хз почему, но если что-то одно убираю - уже не работает, хотя они делают одно и то же
@@ -114,7 +193,6 @@ def girl_hunter_V1(list,key): # есть еще две версии (втора�
                 count +=1
                 list.pop(high)
                 high = len(list)-1
-                low = 0 
             if high == low:
                 break
         else: 
@@ -133,7 +211,6 @@ def girl_hunter_V1(list,key): # есть еще две версии (втора�
             if key == list[low]:
                 count += 1
                 list.pop(low)
-                low = 0
             if high == low:
                 break
         else:
@@ -143,14 +220,12 @@ def girl_hunter_V1(list,key): # есть еще две версии (втора�
                 break
             else:
                 low -= 2**temp
-    return count,n # n is for the main code, but i am too lazy and it doesn't even count anything
-########################################################################################
-// this is another variety of hunter search made by me, idk about it's perfomance but we've got here less lines of code
-def girl_hunter_ver2(list,key):
-    gran = count = i = n = 0 
-    razd = len(list)-1
+    return count,
+
+def girl_hunter_V2(list,key): # Неудачная версия с key in list, так же нельзя вроде, демка для 3 версии герлхантера
+    gran = count = i = 0 
+    razd = len(list)-1 # n мне лень считать
     pov = False
-    flag = True
     while key in list:
         try:
             if list[razd] == key:
@@ -174,13 +249,13 @@ def girl_hunter_ver2(list,key):
                 pov = not pov
         except IndexError:
             flag = False
-    return count,n
-#########################################
+    return count
 
-def girl_hunter_V3(list,key):
-    gran = count = i = n = 0 
+def girl_hunter_V3(list,key): # For Dani Sabirov
+    gran = count = i = 0 
     razd = len(list)-1
     pov = False
+    flag = True
     temp = 0
     while razd != gran: # венец моего творения, лучшая моя версия, хоть и не такая любимая, как первая. Но из линейки герл хантеров - V3 на первом месте в сердце
         if list[razd] == key: # условие по алгоритму
@@ -202,110 +277,57 @@ def girl_hunter_V3(list,key):
                 count += 1
                 list.pop(razd)
                 razd = len(list)-1
-                gran = 0
                 pov = False
             if razd == gran:
                 break
         else:
-            if abs(-razd-2**temp) > len(list)-1: # outstanding move опять, отсылочка, да?
+            if abs(-razd-2**temp) > len(list)-1:
                 break
-            else: # Прооооооооооооооооверка на вылет, кстати, в других версиях я еще лоу проверял на уход за ноль, но вообще такого никогда не произойдет, поэтому тут только как бы хай смотрим
+            else: # Прооооооооооооооооверка на вылет, кстати, в других версиях я еще лоу проверял на уход за ноль, но вообще такого никогда не произойдет, поэтому тут только как бы хай смотрим. Ну работает и ладно, но за лоу тоже вылет регистрирует в другом коде! Но такого просто не будет, поверьте
                 gran = abs(-razd-2**temp)
             i = 0
             pov = not pov
-    return count,n
-    
-###########################################################################################################
-def hunting_binary_search_Kirde(list,key):
+    return count
+
+def girl_binarynunter_V4(list,key): # for Tagir Abdullin
     high = len(list)-1
-    low = n = count = 0
-    flag = True
-    while flag == True:
-        try:
+    low = n = count = i = temp = 0
+    while low <= high:
+        n += 1
+        if list[high] == key:
+            count +=1
+            list.pop(high)
+            high = len(list)-1
+            continue
+        while key < list[high]:
+            n += 1
+            high -= 2**i
+            i += 1
+            temp = i-1
+            if high-2**i <= low:
+                i = 0
             if list[high] == key:
                 count +=1
                 list.pop(high)
+                high = len(list)-1
+            if high <= low:
+                break
+        else:
+            low = high 
+            if high+2**temp > len(list)-1:
+                break 
+            else:
+                high += 2**temp
+        while low <= high: 
+            n += 1
+            mid = (low + high)// 2 
+            if list[mid] == key:
+                count += 1
+                list.pop(mid)
                 low = 0
                 high = len(list)-1
-            i =0
-            b = 0
-            while key < list[high]:
-                high -= 2**i
-                b = i
-                i += 1
-                if high-2**i <= low:
-                    i = 0
-                if list[high] == key:
-                    count +=1
-                    list.pop(high)
-                    low = 0
-                    high = len(list)-1
+            elif list[mid] < key:
+                low = mid + 1
             else:
-                low = high 
-                high += 2**b
-            if key == 2:
-                print(high,low)  
-            while low <= high: 
-                mid = (low + high)// 2 
-                if list[mid] == key:
-                    count += 1
-                    list.pop(mid)
-                    low = 0
-                    high = len(list)-1
-                    mid = (low+high)//2
-                elif list[mid] < key:
-                    low = mid + 1
-                else:
-                    high = mid - 1
-            else:
-                flag = False
-        except IndexError:
-            flag = False
-    return count,n
-######################################################################
-def hunting_interpolation_search_Kirde(list, key):
-    high = len(list)-1
-    low = n = count = 0
-    flag = True
-    while flag == True:
-        try:
-            if list[high] == key:
-                count +=1
-                list.pop(high)
-                low = 0
-                high = len(list)-1
-                continue
-            i =0
-            b = 0
-            while key < list[high]:
-                high -= 2**i
-                b = i
-                i += 1
-                if high-2**i <= low:
-                    i = 0
-                if list[high] == key:
-                    count +=1
-                    list.pop(high)
-                    low = 0
-                    high = len(list)-1
-            else:
-                low = high 
-                high += 2**b
-            while low <= high and key >= list[low] and key <= list[high]:
-                index = low + int(((high - low) * (key - list[low])) / (list[high] - list[low]))
-                if list[index] == key:
-                    count += 1   
-                    list.pop(index)  
-                    low = 0
-                    high = len(list) - 1
-                    continue
-                    #index = low + int(((high - low) * (key - list[low])) / (list[high] - list[low]))
-                elif list[index] < key:
-                    low = index + 1
-                else:
-                    high = index - 1
-            else:
-                flag = False
-        except IndexError:
-            flag = False
+                high = mid - 1
     return count,n
